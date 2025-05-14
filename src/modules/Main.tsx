@@ -3,17 +3,18 @@ import ButtonMenu from "../components/BotonMenu/ButtonMenu";
 //import { useRouter } from 'expo-router';
 import { StackNavigationProp } from "@react-navigation/stack";
 import { RouteProp } from "@react-navigation/native";
+import { RootStackParamList } from "../interfaces/RootStackParamList";
 
-type RootStackParamList = {
-  Ordenes: undefined;
-  RecetaList: undefined;
-  Inventario: undefined;
-  Movimientos: undefined;
-  Main: undefined;
-};
+// type RootStackParamList = {
+//   Ordenes: undefined;
+//   RecetaList: undefined;
+//   Inventario: undefined;
+//   Movimientos: undefined;
+//   Main: undefined;
+// };
 
 type MainScreenNavigationProp = StackNavigationProp<RootStackParamList, "Main">;
-type MainScreenRouteProp = RouteProp<RootStackParamList, "Main">;
+//type MainScreenRouteProp = RouteProp<RootStackParamList, "Main">;
 
 type Props = {
   navigation: MainScreenNavigationProp;

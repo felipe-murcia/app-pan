@@ -1,6 +1,7 @@
-import { colorPrimary, colorPrimaryDark } from "@/constant/color";
+//import { colorPrimary, colorPrimaryDark } from "@/constant/color";
 import React from "react";
 import { TouchableOpacity, Text, StyleSheet, ViewStyle } from "react-native";
+import { colorPrimary, colorPrimaryDark } from "../../constant/color";
 
 interface ButtonProps {
   title: string; // Texto del botón

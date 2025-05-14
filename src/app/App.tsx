@@ -7,6 +7,9 @@ import Main from "../modules/Main";
 import { NavigationContainer } from "@react-navigation/native";
 import { createStackNavigator } from "@react-navigation/stack";
 import RecetaList from "../modules/Recetas/screens/RecetaList";
+import HeaderModule from '../components/HeaderModule/HeaderModule';
+import RecetaCreate from "../modules/Recetas/screens/RecetaCreate";
+import RecetaEdit from "../modules/Recetas/screens/RecetaEdit";
 
 const Stack = createStackNavigator();
 
@@ -31,7 +34,9 @@ export default function App() {
     <NavigationContainer>
       <Stack.Navigator initialRouteName="Main">
         <Stack.Screen name="Main" component={Main} />
-        <Stack.Screen name="RecetaList" component={RecetaList} />
+        <Stack.Screen name="RecetaList" component={RecetaList} options={{ headerShown: false }} />
+        <Stack.Screen name="RecetaCreate" component={RecetaCreate} options={{ headerShown: false }} />
+        <Stack.Screen name="RecetaEdit" component={RecetaEdit} options={{ headerShown: false }} />
       </Stack.Navigator>
     </NavigationContainer>
   );

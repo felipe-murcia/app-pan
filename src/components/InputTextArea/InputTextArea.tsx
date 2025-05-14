@@ -4,7 +4,7 @@ import { TextInput, StyleSheet, View, Text } from "react-native";
 interface InputTextAreaProps {
   label?: string; // Etiqueta opcional para el TextArea
   placeholder?: string; // Placeholder opcional
-  value: string; // Valor del TextArea
+  value?: string; // Valor del TextArea
   onChangeText: (text: string) => void; // Función para manejar cambios
   numberOfLines?: number; // Número de líneas visibles
 }

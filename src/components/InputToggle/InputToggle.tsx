@@ -1,9 +1,10 @@
 import React from "react";
 import { View, Text, Switch, StyleSheet } from "react-native";
+import { colorPrimary } from "../../constant/color";
 
 interface InputToggleProps {
   label?: string; // Etiqueta opcional para el toggle
-  value: boolean; // Valor actual del toggle
+  value?: boolean; // Valor actual del toggle
   onValueChange: (value: boolean) => void; // Función para manejar cambios
 }
 
@@ -14,7 +15,7 @@ export default function InputToggle({ label, value, onValueChange }: InputToggle
       <Switch
         value={value}
         onValueChange={onValueChange}
-        thumbColor={value ? "#4caf50" : "#f44336"}
+        thumbColor={value ? colorPrimary : "black"}
         trackColor={{ false: "#ccc", true: "#81c784" }}
       />
     </View>

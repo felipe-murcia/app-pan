@@ -12,7 +12,7 @@ interface Props {
 export default function HeaderModule({ title, onPressStart, onPressEnd, iconStart = 'plus', iconEnd = 'right' }: Props) {
   return (
     <View>
-        <View style={{flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center'}}>
+        <View style={{flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', marginTop: 20}}>
             <View style={{flexDirection: 'row', alignItems: 'center'}}>
               {
                 onPressStart &&

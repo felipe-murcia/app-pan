@@ -5,20 +5,32 @@ import { useState } from "react";
 import useRecetasService from "../hooks/useRecetasService";
 import HeaderModule from "../../../components/HeaderModule/HeaderModule";
 import ItemReceta from "../components/ItemReceta/ItemReceta";
+import { RootStackParamList } from "../../../interfaces/RootStackParamList";
+import { StackNavigationProp } from "@react-navigation/stack";
 //import ItemReceta from "../../../components/ItemProducto/ItemProducto";
 //import ItemReceta from './components/ItemReceta/ItemReceta';
 //import useRecetasService from "./hooks/useRecetasService";
 
-export default function RecetasScreen() {
-  
+type MainScreenNavigationProp = StackNavigationProp<RootStackParamList, "RecetaList">;
+//type MainScreenRouteProp = RouteProp<RootStackParamList, "Main">;
+
+type Props = {
+  navigation: MainScreenNavigationProp;
+  //route: MainScreenRouteProp;
+};
+
+export default function RecetasScreen({ navigation }: Props) {
 
   const { recetas, loading, error, refetch } = useRecetasService();
-  
-  //const router = useRouter();
 
   const handlePress = () => {
     console.log('Button pressed!');
     console.log('/Recetas/form')
+  }
+
+  const testLoad = async () => {
+    console.log('testLoad');
+    alert('testLoad');
   }
   return (
     <View
@@ -28,12 +40,12 @@ export default function RecetasScreen() {
       }}
     >
 
-      <HeaderModule title="Recetas" iconEnd="plus" onPressEnd={()=>handlePress()}/>
+      <HeaderModule title="Recetas 2" iconEnd="plus" onPressEnd={()=>navigation.navigate("RecetaCreate", { onRefresh: refetch })}/>
       <View>
 
       {
         recetas.map((receta, i) => (
-          <ItemReceta key={i} data={receta} onPress={() => handlePress()} />
+          <ItemReceta key={i} data={receta} onPress={() => navigation.navigate("RecetaEdit", { receta })} />
         ))
       }
       {/* <ItemReceta onPress={handlePress} /> */}
