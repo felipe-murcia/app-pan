@@ -48,7 +48,6 @@ export default function RecetasScreen({ navigation }: Props) {
           <ItemReceta key={i} data={receta} onPress={() => navigation.navigate("RecetaEdit", { receta })} />
         ))
       }
-      {/* <ItemReceta onPress={handlePress} /> */}
 
       {loading && <Text>Cargando recetas...</Text>}
       {error && <Text>Error: {error}</Text>}

@@ -1,7 +1,8 @@
 
 export interface IIngrediente {
     nombre: string,
-    cantidad: number
+    cantidad: number,
+    tipoDeUnidad?: string,
 }
 export interface IReceta {
     nombre: string,

@@ -1,9 +1,6 @@
 
 import React, { useState } from "react";
-//import { Stack, useRouter } from "expo-router";
 import { Text, View, ScrollView, Modal } from "react-native";
-//import { IReceta } from "@/src/screens/Recetas/models/Receta";
-//import { RecetaService } from "@/src/services/recetaServices";
 import { IReceta } from "../models/Receta";
 import { RecetaService } from "../../../services/recetaServices";
 import HeaderModule from "../../../components/HeaderModule/HeaderModule";
@@ -12,6 +9,7 @@ import { InputType } from "../../../interfaces/InputType";
 import { RootStackParamList } from "../../../interfaces/RootStackParamList";
 import { StackNavigationProp } from "@react-navigation/stack";
 import { RouteProp } from "@react-navigation/native";
+import useValidateForm from "../hooks/useValidateForm";
 
 type MainScreenNavigationProp = StackNavigationProp<RootStackParamList, "RecetaCreate">;
 type MainScreenRouteProp = RouteProp<RootStackParamList, "RecetaCreate">;
@@ -23,37 +21,24 @@ type Props = {
 
 export default function RecetaCreate({ navigation, route }: Props) {
 
-  //const router = useRouter();
-
   const [ loading, setLoading ] = useState(false);
 
   const [ receta, setReceta ] = useState<IReceta>({
-    nombre:'Pan prueba',
-    cantidad: 10,
-    observacion: 'Prueba de receta por el momento',
+    nombre:'',
+    cantidad: 0,
+    observacion: '',
     conPicada: true,
-    picada: 200,
+    picada: 0,
     ingredientes: [],
-    temperatura:80,
-    tiempo:120
+    temperatura:0,
+    tiempo:0
   })
-  const [modalVisible, setModalVisible] = React.useState(false);
-  const [ingredientes, setIngredientes] = React.useState<{ nombre: string; cantidad: string }[]>([]);
-  const [ingrediente, setIngrediente] = React.useState<{ nombre: string; cantidad: string }>({ nombre: "", cantidad: "" });
-
-  const handleSaveIngredient = () => {
-    if (ingrediente.nombre && ingrediente.cantidad) {
-      setIngredientes([...ingredientes, { ...ingrediente }]);
-      setIngrediente({ nombre: "", cantidad: "" });
-      setModalVisible(false);
-    }
-  };
-
+  
   const handleSave = async () => {
     
     try {
       console.log('Inicia proceso:');
-      setLoading(true);
+      setLoading(true); 
       const recetaService = new RecetaService();
       const savedReceta = await recetaService.create(receta);
       if (savedReceta?.id) {
@@ -76,7 +61,7 @@ export default function RecetaCreate({ navigation, route }: Props) {
   return (
     <View style={{ flex: 1, padding: 20 }}>
 
-      <HeaderModule title="Formulario" iconEnd="close" onPressEnd={()=>{}}/>
+      <HeaderModule title="Formulario" iconEnd="close" onPressEnd={()=>navigation.goBack()}/>
 
         <ScrollView style={{ flex: 1 }} showsVerticalScrollIndicator={false} contentContainerStyle={{ paddingBottom: 20, paddingTop: 10 }}>
 

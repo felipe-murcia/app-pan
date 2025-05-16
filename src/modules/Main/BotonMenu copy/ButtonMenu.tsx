@@ -10,11 +10,11 @@ interface Props {
 }
 
 export default function ButtonMenu({ title, icon, onPress }: Props) {
-  
-  let iconSource = icon === "ordenes" ? require("../../assets/images/menu/ordenes.png"):
-  icon === "productos" ? require("../../assets/images/menu/productos.png") :
-  icon === "recetas" ? require("../../assets/images/menu/recetas.png") :
-  require("../../assets/images/menu/movimiento.png");
+
+  let iconSource = icon === "ordenes" ? require("../../../assets/images/menu/ordenes.png"):
+  icon === "productos" ? require("../../../assets/images/menu/productos.png") :
+  icon === "recetas" ? require("../../../assets/images/menu/recetas.png") :
+  require("../../../assets/images/menu/movimiento.png");
 
   return (
     <TouchableOpacity
@@ -36,7 +36,7 @@ export default function ButtonMenu({ title, icon, onPress }: Props) {
           <Text style={{ fontFamily: 'PoppinsMedium', fontSize: 18}}>{title}</Text>
         </View>
         <Image
-          source={require("../../assets/images/menu/derecha.png")}
+          source={require("../../../assets/images/menu/derecha.png")}
           style={{ width: 32, height: 32, tintColor:'' }} />
       </View>
     </TouchableOpacity>

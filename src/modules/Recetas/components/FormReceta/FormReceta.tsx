@@ -1,13 +1,17 @@
 
 import React, { useEffect, useState } from "react";
 import { Text, View, ScrollView, Modal } from "react-native";
-import { IReceta } from "../../models/Receta";
+import { IIngrediente, IReceta } from "../../models/Receta";
 import Button from "../../../../components/Button/Button";
 import ButtonDashed from "../../../../components/ButtonDashed/Button";
 import InputText from "../../../../components/InputText/InputText";
 import InputToggle from "../../../../components/InputToggle/InputToggle";
 import InputTextArea from "../../../../components/InputTextArea/InputTextArea";
 import { InputType } from "../../../../interfaces/InputType";
+import useValidateForm from "../../hooks/useValidateForm";
+import { FieldError } from "../../../../interfaces/FieldError";
+import { filterError } from "../../../../utils/filterError";
+import FormIngrediente from "../FormIngrediente.tsx/FormIngrediente";
 
 interface Props {
   onPress?: () => void;
@@ -19,50 +23,53 @@ interface Props {
 
 export default function FormReceta({ onPress = () => {}, receta, loading = false, handleChange }: Props) {
 
-
-  // const [ receta, setReceta ] = useState<IReceta>({
-  //   nombre:'Pan prueba',
-  //   cantidad: 10,
-  //   observacion: 'Prueba de receta por el momento',
-  //   conPicada: true,
-  //   picada: 200,
-  //   ingredientes: [],
-  //   temperatura:80,
-  //   tiempo:120
-  // })
+  const [ error, setError ] = useState<FieldError[]>([]);
   const [modalVisible, setModalVisible] = React.useState(false);
   //const [ingredientes, setIngredientes] = React.useState<{ nombre: string; cantidad: string }[]>([]);
-  const [ingrediente, setIngrediente] = React.useState<{ nombre: string; cantidad: string }>({ nombre: "", cantidad: "" });
 
-  const handleSaveIngredient = () => {
-    if (ingrediente.nombre && ingrediente.cantidad) {
-      //setIngredientes([...ingredientes, { ...ingrediente }]);
-      setIngrediente({ nombre: "", cantidad: "" });
+  const handleSaveIngredient = (ingrediente: IIngrediente) => {
+    if (ingrediente.nombre && ingrediente.cantidad) {      
+      handleChange({ name: "ingredientes", value: [...receta?.ingredientes || [], ingrediente] });
       setModalVisible(false);
     }
   };
-  
+
+  const { validate } = useValidateForm();
+
+  const handleSave = async () => {
+    const validation = validate(receta as IReceta);
+    if (!validation.isValid) {
+      console.log('Validation errors found: -', validation.errors);
+      setError(validation.errors);
+      return;
+    }
+    onPress();
+    console.log('Validation passed:', receta);
+  }
+
   return (
     <View>
-
-
-          <InputText onChangeText={(value:string)=>handleChange({ name: "nombre", value })} value={receta?.nombre} label="Nombre de la receta" placeholder="Nombre de la receta" />
-          <InputText onChangeText={(value:number)=>handleChange({ name: "temperatura", value })} value={receta?.temperatura} label="Temperatura (celsius)" placeholder="120"  keyboardType="numeric" />
-          <InputText onChangeText={(value:number)=>handleChange({ name: "tiempo", value })} value={receta?.tiempo} label="Tiempo (minuto)" placeholder="200"  keyboardType="numeric" />
+          <InputText onChangeText={(value:string)=>handleChange({ name: "nombre", value })} value={receta?.nombre} label="Nombre de la receta" placeholder="Nombre de la receta" error={filterError("nombre", error)}/>
+          <InputText onChangeText={(value:number)=>handleChange({ name: "temperatura", value })} value={receta?.temperatura} label="Temperatura (celsius)" placeholder="120"  keyboardType="numeric" error={filterError("temperatura", error)}/>
+          <InputText onChangeText={(value:number)=>handleChange({ name: "tiempo", value })} value={receta?.tiempo} label="Tiempo (minuto)" placeholder="200"  keyboardType="numeric" error={filterError("tiempo", error)}/>
           <InputToggle onValueChange={(value:boolean)=>handleChange({ name: "conPicada", value })} value={receta?.conPicada} label="Picada" />
           {
             receta?.conPicada &&
-            <InputText onChangeText={(value:number)=>handleChange({ name: "picada", value })} value={receta?.picada} label={""} placeholder="Picada (gramos)"  keyboardType="numeric" />
+            <InputText onChangeText={(value:number)=>handleChange({ name: "picada", value })} value={receta?.picada} label={""} placeholder="Picada (gramos)"  keyboardType="numeric" error={filterError("picada", error)}/>
           }
           <InputTextArea onChangeText={(value:string)=>handleChange({ name: "observacion", value })} value={receta?.observacion} label="Observaciones" placeholder="..." numberOfLines={4} />
-          <InputText onChangeText={(value:string)=>handleChange({ name: "nombre", value })} value={receta?.cantidad} label="Cantidad recomendada" placeholder="100 (unidades)" keyboardType="numeric" />
+          <InputText onChangeText={(value:string)=>handleChange({ name: "cantidad", value })} value={receta?.cantidad} label="Cantidad recomendada" placeholder="100 (unidades)" keyboardType="numeric" error={filterError("cantidad", error)} />
 
           <Text style={{ fontSize: 16, fontFamily: "PoppinsMedium"}}>Ingredientes</Text>
-
+          <Text style={{ fontSize: 12, fontFamily: "PoppinsLight" }}>
+              Agregar ingrediente a la receta, puedes agregar varios ingredientes
+              para una receta.
+          </Text>
+          <View style={{ height: 10 }} />
           {receta?.ingredientes.map((item,i) => (
             <View key={i} style={{ flexDirection: "row", justifyContent: "space-between", alignItems: "center", borderBottomWidth: 1, borderColor: "#c1c1c1", marginBottom:5   }}>  
               <Text style={{ fontSize: 14, fontFamily: "PoppinsLight"}}>{item.nombre}</Text>
-              <Text style={{ fontSize: 16, fontFamily: "PoppinsLight"}}>{item.cantidad}g</Text>
+              <Text style={{ fontSize: 16, fontFamily: "PoppinsLight"}}>{item.cantidad} {item.tipoDeUnidad}</Text>
             </View>
           ))}
 
@@ -72,29 +79,17 @@ export default function FormReceta({ onPress = () => {}, receta, loading = false
 
           {
             loading ? <Text style={{ fontSize: 14, fontFamily: "PoppinsLight", textAlign: 'center', padding: 40}}>Guardando receta...</Text>
-            :<Button title="Guardar" onPress={onPress} color="#4caf50"  style={{ marginTop: 20 }}/>
+            :<Button title="Guardar" onPress={handleSave} color="#4caf50"  style={{ marginTop: 20 }}/>
           }
 
 
         <View style={{ marginVertical: 10 }} />
 
-        <Modal
-          animationType="slide"
-          transparent={true}
-          visible={modalVisible}
-          onRequestClose={() => {
-            setModalVisible(!modalVisible);
-          }}
-        >
-          <View style={{ flex: 1, justifyContent: "center", alignItems: "center" }}>
-            <View style={{ width: "90%", backgroundColor: "#fff", borderRadius: 10, padding: 20 }}>
-              <Text style={{ fontSize: 18, fontWeight: "bold", marginBottom: 10 }}>Agregar Ingrediente</Text>
-              <InputText onChangeText={(value:string)=>setIngrediente({ ...ingrediente, nombre: value })} value={ingrediente.nombre} label="Nombre del ingrediente" placeholder="Nombre del ingrediente" />
-              <InputText onChangeText={(value:string)=>setIngrediente({ ...ingrediente, cantidad: value })} value={ingrediente.cantidad} label="Cantidad" placeholder="Cantidad" keyboardType="numeric"/>
-              <Button title="Agregar" onPress={()=>handleSaveIngredient()} style={{ marginTop: 20 }} />
-            </View>
-          </View>
-          </Modal>
+        <FormIngrediente
+          show={modalVisible}
+          onHandleSave={(value:IIngrediente) => handleSaveIngredient(value)}
+          setModalVisible={setModalVisible}
+        /> 
 
         
     </View>

@@ -3,7 +3,7 @@ import { StyleSheet, Text, View } from "react-native";
 import * as SplashScreen from "expo-splash-screen";
 import { useFonts } from "expo-font";
 import { useEffect } from "react";
-import Main from "../modules/Main";
+import Main from "../modules/Main/Main";
 import { NavigationContainer } from "@react-navigation/native";
 import { createStackNavigator } from "@react-navigation/stack";
 import RecetaList from "../modules/Recetas/screens/RecetaList";
@@ -33,7 +33,7 @@ export default function App() {
   return (
     <NavigationContainer>
       <Stack.Navigator initialRouteName="Main">
-        <Stack.Screen name="Main" component={Main} />
+        <Stack.Screen name="Main" component={Main} options={{ headerShown: false }} />
         <Stack.Screen name="RecetaList" component={RecetaList} options={{ headerShown: false }} />
         <Stack.Screen name="RecetaCreate" component={RecetaCreate} options={{ headerShown: false }} />
         <Stack.Screen name="RecetaEdit" component={RecetaEdit} options={{ headerShown: false }} />

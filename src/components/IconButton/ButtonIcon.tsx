@@ -18,14 +18,14 @@ export default function ButtonIcon({ icon = '', onPress }: Props) {
   return (
     <TouchableOpacity 
       onPress={onPress} >
-      <View style={{ backgroundColor: "#fafafa", borderRadius:50, padding:6,  flexDirection: "row", justifyContent: "center", alignItems: "center",
+      <View style={{ backgroundColor: "#fafafa", borderRadius:50, padding:10,  flexDirection: "row", justifyContent: "center", alignItems: "center",
         shadowOpacity: 0.1,
         shadowRadius: 6,
         elevation: 5,
        }}> 
         <Image
           source={iconSource}
-          style={{ width: 30, height: 30, tintColor:'black' }} />
+          style={{ width: 20, height: 20, tintColor:'black' }} />
       </View>
     </TouchableOpacity>
   );
