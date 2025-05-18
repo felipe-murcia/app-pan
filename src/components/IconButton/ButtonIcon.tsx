@@ -13,6 +13,7 @@ export default function ButtonIcon({ icon = '', onPress }: Props) {
   let iconSource = icon === "right" ? require("../../assets/images/icon/right.png"):
   icon === "plus" ? require("../../assets/images/icon/plus.png"):
   icon === "close" ? require("../../assets/images/icon/close.png"):
+  icon === "delete" ? require("../../assets/images/icon/delete.png"):
   require("../../assets/images/menu/movimiento.png");
 
   return (

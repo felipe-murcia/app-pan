@@ -10,6 +10,7 @@ export type RootStackParamList = {
     onRefresh: () => void;
   };
   RecetaEdit: {
-    receta: IReceta;
+    receta: IReceta,
+    onRefresh: () => void;
   };
 };

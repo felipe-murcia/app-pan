@@ -33,12 +33,8 @@ export default function FormIngrediente({
     >
         <View style={{ flex: 1, justifyContent: "center", alignItems: "center", shadowOpacity: 0.1, shadowRadius: 6, elevation: 5 }}>
       <View style={{ width: "90%", backgroundColor: "#fff", borderRadius: 10, padding: 20 }}>
-        <Text style={{ fontSize: 18, fontWeight: "bold", marginBottom: 10 }}>
+        <Text style={{ fontSize: 18, fontFamily: "PoppinsMedium", marginBottom: 10 }}>
           Agregar ingrediente
-        </Text>
-        <Text>
-            Agregar ingrediente a la receta, puedes agregar varios ingredientes
-            para una receta.
         </Text>
         <InputText
           onChangeText={(value: string) =>
@@ -66,7 +62,7 @@ export default function FormIngrediente({
             { value: "ml", label: "Mililitros" },
             { value: "und", label: "Unidad" },
           ]}
-          selectedKey={ingrediente.tipoDeUnidad}
+          selectedKey={ingrediente.tipoDeUnidad || "gr"}
           onChange={(key) => setIngrediente({ ...ingrediente, tipoDeUnidad: key })}
         />
         <Button

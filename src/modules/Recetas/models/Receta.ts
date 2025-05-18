@@ -5,6 +5,7 @@ export interface IIngrediente {
     tipoDeUnidad?: string,
 }
 export interface IReceta {
+    id?:number,
     nombre: string,
     temperatura: number,
     tiempo: number,

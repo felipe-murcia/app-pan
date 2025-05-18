@@ -21,7 +21,7 @@ type Props = {
 
 export default function RecetasScreen({ navigation }: Props) {
 
-  const { recetas, loading, error, refetch } = useRecetasService();
+  const { recetas, loading, error, refetch } = useRecetasService(true);
 
   const handlePress = () => {
     console.log('Button pressed!');
@@ -32,6 +32,7 @@ export default function RecetasScreen({ navigation }: Props) {
     console.log('testLoad');
     alert('testLoad');
   }
+  
   return (
     <View
       style={{
@@ -40,12 +41,12 @@ export default function RecetasScreen({ navigation }: Props) {
       }}
     >
 
-      <HeaderModule title="Recetas 2" iconEnd="plus" onPressEnd={()=>navigation.navigate("RecetaCreate", { onRefresh: refetch })}/>
+      <HeaderModule title="Recetas" iconEnd="plus" onPressEnd={()=>navigation.navigate("RecetaCreate", { onRefresh: refetch })}/>
       <View>
 
       {
         recetas.map((receta, i) => (
-          <ItemReceta key={i} data={receta} onPress={() => navigation.navigate("RecetaEdit", { receta })} />
+          <ItemReceta key={i} data={receta} onPress={() => navigation.navigate("RecetaEdit", { receta, onRefresh: refetch })} />
         ))
       }
 

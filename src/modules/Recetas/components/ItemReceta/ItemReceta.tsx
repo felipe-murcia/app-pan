@@ -21,8 +21,8 @@ export default function ItemReceta({ data, onPress }: Props) {
         backgroundColor: "#fafafa",
         padding: 8,
         borderRadius: 8,
-        margin: 4,
-        marginTop: 10,
+        margin: 2,
+        marginTop: 5,
         elevation:1,
         shadowOpacity:0.2,
         shadowRadius:10,
@@ -31,7 +31,7 @@ export default function ItemReceta({ data, onPress }: Props) {
       <View style={{ flexDirection: "row", justifyContent: "space-between", alignItems: "center" }}>
         <View style={{ flexDirection: "row", alignItems: "center" }}>
             <View style={{ backgroundColor:colorPrimaryBase, borderRadius:50, padding:10 }}>
-                <Image source={require("../../../../assets/images/icon/harina.png")} style={{ width: 32, height: 32, tintColor:'' }} />
+                <Image source={require("../../../../assets/images/icon/recipe.png")} style={{ width: 28, height: 28, tintColor:'' }} />
             </View>
           <View style={{ width: 5 }} />
           <View>

@@ -10,6 +10,7 @@ import { RootStackParamList } from "../../../interfaces/RootStackParamList";
 import { StackNavigationProp } from "@react-navigation/stack";
 import { RouteProp } from "@react-navigation/native";
 import useValidateForm from "../hooks/useValidateForm";
+import useRecetasService from "../hooks/useRecetasService";
 
 type MainScreenNavigationProp = StackNavigationProp<RootStackParamList, "RecetaCreate">;
 type MainScreenRouteProp = RouteProp<RootStackParamList, "RecetaCreate">;
@@ -21,35 +22,26 @@ type Props = {
 
 export default function RecetaCreate({ navigation, route }: Props) {
 
-  const [ loading, setLoading ] = useState(false);
-
   const [ receta, setReceta ] = useState<IReceta>({
     nombre:'',
     cantidad: 0,
     observacion: '',
-    conPicada: true,
+    conPicada: false,
     picada: 0,
     ingredientes: [],
     temperatura:0,
     tiempo:0
   })
   
+  const { loading, error, saveReceta } = useRecetasService(false);
+
   const handleSave = async () => {
-    
-    try {
-      console.log('Inicia proceso:');
-      setLoading(true); 
-      const recetaService = new RecetaService();
-      const savedReceta = await recetaService.create(receta);
-      if (savedReceta?.id) {
+
+    let res:any = await saveReceta(receta) || true;
+
+    if (res?.id) {
         navigation.goBack();
         route.params.onRefresh();
-      }
-      console.log('Receta saved:', savedReceta);
-    } catch (error) {
-      console.error('Error saving receta:', error);
-    } finally {
-      setLoading(false);
     }
   }
 

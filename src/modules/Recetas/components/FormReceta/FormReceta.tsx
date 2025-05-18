@@ -1,6 +1,6 @@
 
 import React, { useEffect, useState } from "react";
-import { Text, View, ScrollView, Modal } from "react-native";
+import { Text, View, ScrollView, Modal, Alert } from "react-native";
 import { IIngrediente, IReceta } from "../../models/Receta";
 import Button from "../../../../components/Button/Button";
 import ButtonDashed from "../../../../components/ButtonDashed/Button";
@@ -12,6 +12,7 @@ import useValidateForm from "../../hooks/useValidateForm";
 import { FieldError } from "../../../../interfaces/FieldError";
 import { filterError } from "../../../../utils/filterError";
 import FormIngrediente from "../FormIngrediente.tsx/FormIngrediente";
+import ItemIngrediente from "../../../../components/ItemIngrediente/ItemIngrediente";
 
 interface Props {
   onPress?: () => void;
@@ -25,7 +26,6 @@ export default function FormReceta({ onPress = () => {}, receta, loading = false
 
   const [ error, setError ] = useState<FieldError[]>([]);
   const [modalVisible, setModalVisible] = React.useState(false);
-  //const [ingredientes, setIngredientes] = React.useState<{ nombre: string; cantidad: string }[]>([]);
 
   const handleSaveIngredient = (ingrediente: IIngrediente) => {
     if (ingrediente.nombre && ingrediente.cantidad) {      
@@ -47,6 +47,26 @@ export default function FormReceta({ onPress = () => {}, receta, loading = false
     console.log('Validation passed:', receta);
   }
 
+  const handleItemRemove = (index: number) => {
+
+      Alert.alert(
+        "Eliminar ingrediente",
+        "¿Estás seguro que deseas eliminar este ingrediente?",
+        [
+          { text: "Cancelar", style: "cancel" },
+          {
+            text: "Eliminar",
+            style: "destructive",
+            onPress: () => {
+              const newIngredientes = [...receta?.ingredientes || []];
+              newIngredientes.splice(index, 1);
+              handleChange({ name: "ingredientes", value: newIngredientes });
+            },
+          },
+        ]
+      );
+  }
+
   return (
     <View>
           <InputText onChangeText={(value:string)=>handleChange({ name: "nombre", value })} value={receta?.nombre} label="Nombre de la receta" placeholder="Nombre de la receta" error={filterError("nombre", error)}/>
@@ -66,11 +86,9 @@ export default function FormReceta({ onPress = () => {}, receta, loading = false
               para una receta.
           </Text>
           <View style={{ height: 10 }} />
+
           {receta?.ingredientes.map((item,i) => (
-            <View key={i} style={{ flexDirection: "row", justifyContent: "space-between", alignItems: "center", borderBottomWidth: 1, borderColor: "#c1c1c1", marginBottom:5   }}>  
-              <Text style={{ fontSize: 14, fontFamily: "PoppinsLight"}}>{item.nombre}</Text>
-              <Text style={{ fontSize: 16, fontFamily: "PoppinsLight"}}>{item.cantidad} {item.tipoDeUnidad}</Text>
-            </View>
+            <ItemIngrediente key={i} data={item} onPress={()=>handleItemRemove(i)} />
           ))}
 
           <View style={{ height: 10 }} />
