@@ -10,6 +10,9 @@ import RecetaList from "../modules/Recetas/screens/RecetaList";
 import HeaderModule from '../components/HeaderModule/HeaderModule';
 import RecetaCreate from "../modules/Recetas/screens/RecetaCreate";
 import RecetaEdit from "../modules/Recetas/screens/RecetaEdit";
+import ProductoScreen from "../modules/Productos/screens/ProductoScreen";
+import ProductoCreate from "../modules/Productos/screens/ProductoCreate";
+import ProductoEdit from "../modules/Productos/screens/ProductoEdit";
 
 const Stack = createStackNavigator();
 
@@ -37,6 +40,9 @@ export default function App() {
         <Stack.Screen name="RecetaList" component={RecetaList} options={{ headerShown: false }} />
         <Stack.Screen name="RecetaCreate" component={RecetaCreate} options={{ headerShown: false }} />
         <Stack.Screen name="RecetaEdit" component={RecetaEdit} options={{ headerShown: false }} />
+        <Stack.Screen name="ProductoScreen" component={ProductoScreen} options={{ headerShown: false }} />
+        <Stack.Screen name="ProductoCreate" component={ProductoCreate} options={{ headerShown: false }} />
+        <Stack.Screen name="ProductoEdit" component={ProductoEdit} options={{ headerShown: false }} />
       </Stack.Navigator>
     </NavigationContainer>
   );

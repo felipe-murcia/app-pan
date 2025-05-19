@@ -1,19 +1,9 @@
 import { Button, Text, View } from "react-native";
 import ButtonMenu from "./BotonMenu/ButtonMenu";
-//import { useRouter } from 'expo-router';
 import { StackNavigationProp } from "@react-navigation/stack";
-import { RouteProp } from "@react-navigation/native";
 import { RootStackParamList } from "../../interfaces/RootStackParamList";
 import { FlatList } from "react-native-gesture-handler";
 import { menuItems } from "../../constant/menu";
-
-// type RootStackParamList = {
-//   Ordenes: undefined;
-//   RecetaList: undefined;
-//   Inventario: undefined;
-//   Movimientos: undefined;
-//   Main: undefined;
-// };
 
 type MainScreenNavigationProp = StackNavigationProp<RootStackParamList, "Main">;
 //type MainScreenRouteProp = RouteProp<RootStackParamList, "Main">;
@@ -25,8 +15,6 @@ type Props = {
 
 
 export default function Main({ navigation }: Props) {
-
-  //const router = useRouter();
 
   return (
     <View

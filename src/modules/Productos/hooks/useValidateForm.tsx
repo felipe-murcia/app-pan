@@ -13,8 +13,8 @@ export default function useValidateFormProducto() {
     if (!receta.nombre || receta.nombre.trim() === "") {
       errors.push({ key: "nombre", error: "El nombre es obligatorio" });
     }
-    if (!receta.stock || receta.stock <= 0) {
-        console.log('Receta cantidad:', receta.stock);
+    if (!receta.cantidad || receta.cantidad <= 0) {
+        console.log('Receta cantidad:', receta.cantidad);
       errors.push({ key: "cantidad", error: "La cantidad es obligatoria" });
     }
     if (!receta.precio || receta.precio <= 0) {

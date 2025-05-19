@@ -9,7 +9,7 @@ export const menuItems = [
         id: 2,
         title: "Inventario",
         icon: "productos",
-        screen: "Inventario",
+        screen: "ProductoScreen",
     },
     {
         id: 3,

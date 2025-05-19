@@ -1,33 +1,31 @@
-//import { IReceta } from "@/src/screens/Recetas/models/Receta";
-//import { RecetaService } from "@/src/services/recetaServices";
 import { useState, useEffect } from "react";
 import { IProducto } from "../models/Producto";
 import { ProductoService } from "../../../services/productoServices";
 
-export default function useRecetasService( load: boolean = false) {
+export default function useProductosService( load: boolean = false) {
   const [productos, setProductos] = useState<IProducto[]>([]);
   const [loading, setLoading] = useState<boolean>(false);
   const [error, setError] = useState<string | null>(null);
 
   const productosService = new ProductoService();
 
-  const fetchRecetas = async () => {
+  const fetchProductos = async () => {
     try {
       setLoading(true);
       setError(null);
       console.log('Inicio fetch')
       // Simulación de una llamada a una API
-      const response = await productosService.getAll(); // Corrected type to IReceta[]
+      const response = await productosService.getAll(); 
       console.log('cargó')
       setProductos(response);
     } catch (err: any) {
-      setError("Error al cargar las recetas: " + (err?.message || "Unknown error"));
+      setError("Error al cargar las productos: " + (err?.message || "Unknown error"));
     } finally {
       setLoading(false);
     }
   };
 
-  const saveReceta = async (data:IProducto) => {
+  const saveProducto = async (data:IProducto) => {
     try {
       setLoading(true);
       setError(null);
@@ -35,13 +33,13 @@ export default function useRecetasService( load: boolean = false) {
       console.log(response)
       return response;
     } catch (err: any) {
-      setError("Error al guardar la receta: " + (err?.message || "Unknown error"));
+      setError("Error al guardar la producto: " + (err?.message || "Unknown error"));
     } finally {
       setLoading(false)
     }
   }
 
-    const updateReceta = async (data:IProducto) => {
+    const updateProducto = async (data:IProducto) => {
     try {
       setLoading(true);
       setError(null);
@@ -49,13 +47,13 @@ export default function useRecetasService( load: boolean = false) {
       console.log(response)
       return response;
     } catch (err: any) {
-      setError("Error al actualizar la receta: " + (err?.message || "Unknown error"));
+      setError("Error al actualizar la producto: " + (err?.message || "Unknown error"));
     } finally {
       setLoading(false)
     }
   }
 
-  const deleteReceta = async (data:IProducto) => {
+  const deleteProducto = async (data:IProducto) => {
     try {
       setLoading(true);
       setError(null);
@@ -63,15 +61,15 @@ export default function useRecetasService( load: boolean = false) {
       console.log(response)
       return response;
     } catch (err: any) {
-      setError("Error al actualizar la receta: " + (err?.message || "Unknown error"));
+      setError("Error al actualizar la producto: " + (err?.message || "Unknown error"));
     } finally {
       setLoading(false)
     }
   }
 
   useEffect(() => {
-    load && fetchRecetas();
+    load && fetchProductos();
   }, []);
 
-  return { productos, loading, error, refetch: fetchRecetas, saveReceta, updateReceta, deleteReceta };
+  return { productos, loading, error, refetch: fetchProductos, saveProducto, updateProducto, deleteProducto };
 }

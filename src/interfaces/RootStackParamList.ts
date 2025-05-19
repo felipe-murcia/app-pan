@@ -1,3 +1,4 @@
+import { IProducto } from "../modules/Productos/models/Producto";
 import { IReceta } from "../modules/Recetas/models/Receta";
 
 export type RootStackParamList = {
@@ -11,6 +12,14 @@ export type RootStackParamList = {
   };
   RecetaEdit: {
     receta: IReceta,
+    onRefresh: () => void;
+  };
+  ProductoScreen: undefined,
+  ProductoCreate: {
+    onRefresh: () => void;
+  };
+  ProductoEdit: {
+    producto: IProducto,
     onRefresh: () => void;
   };
 };

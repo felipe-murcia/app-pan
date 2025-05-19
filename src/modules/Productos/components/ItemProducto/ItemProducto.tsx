@@ -1,18 +1,18 @@
-//import { colorPrimaryBase } from "@/constant/color";
-//import { IReceta } from "@/src/screens/Recetas/models/Receta";
+
+//import { IReceta } from "../../screens/Recetas/models/Receta";
 import React from "react";
 import { Text, TouchableOpacity, View, Dimensions, Image } from "react-native";
-import { IReceta } from "../../models/Receta";
+import { IProducto } from "../../models/Producto";
 import { colorPrimaryBase } from "../../../../constant/color";
 
 const { width, height } = Dimensions.get("window");
 
 interface Props {
-  data?: IReceta;
-  onPress?: () => void;
+    data?: IProducto;
+    onPress?: () => void;
 }
 
-export default function ItemReceta({ data, onPress }: Props) {
+export default function ItemProducto({ data, onPress }: Props) {
    
 
   return (
@@ -21,8 +21,8 @@ export default function ItemReceta({ data, onPress }: Props) {
         backgroundColor: "#fafafa",
         padding: 8,
         borderRadius: 8,
-        margin: 2,
-        marginTop: 5,
+        marginVertical: 4,
+        marginTop: 10,
         elevation:1,
         shadowOpacity:0.2,
         shadowRadius:10,
@@ -31,17 +31,14 @@ export default function ItemReceta({ data, onPress }: Props) {
       <View style={{ flexDirection: "row", justifyContent: "space-between", alignItems: "center" }}>
         <View style={{ flexDirection: "row", alignItems: "center" }}>
             <View style={{ backgroundColor:colorPrimaryBase, borderRadius:50, padding:10 }}>
-                <Image source={require("../../../../assets/images/icon/recipe.png")} style={{ width: 28, height: 28, tintColor:'' }} />
+                <Image source={require("../../../../assets/images/icon/pan.png")} style={{ width: 32, height: 32, tintColor:'' }} />
             </View>
           <View style={{ width: 5 }} />
           <View>
-            <Text style={{ fontFamily: 'PoppinsMedium', fontSize: 16}}>{data?.nombre} </Text>
-            <Text style={{ fontFamily: 'PoppinsLight', fontSize: 12}}>Tiempo: {data?.tiempo}m | Temperatura: {data?.temperatura}°</Text>
+            <Text style={{ fontFamily: 'PoppinsMedium', fontSize: 16, width:"85%" }} numberOfLines={2}>{data?.nombre}</Text>
+            <Text style={{ fontFamily: 'PoppinsLight', fontSize: 14}}> Stock : {data?.cantidad} - Precio: ${data?.precio} </Text>
           </View>
         </View>
-        <Image
-          source={require("../../../../assets/images/icon/more.png")}
-          style={{ width: 32, height: 32, tintColor:'' }} />
       </View>
     </TouchableOpacity>
   );

@@ -2,7 +2,7 @@ import axios from 'axios'
 
 export const api = axios.create({
     //baseURL: 'https://pan-dfb0dc725766.herokuapp.com',
-    baseURL: 'http://192.168.0.105:3333/'
+    baseURL: 'http://192.168.1.6:3333/'
     // headers: {
     //     'Content-Type': 'application/json',
     //     Accept: 'application/json',
