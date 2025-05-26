@@ -18,14 +18,14 @@ type MainScreenNavigationProp = StackNavigationProp<RootStackParamList, "RecetaE
 type MainScreenRouteProp = RouteProp<RootStackParamList, "RecetaEdit">;
 
 type Props = {
-  navigation: MainScreenNavigationProp;
-  route: MainScreenRouteProp;
+  navigation?: MainScreenNavigationProp;
+  route?: MainScreenRouteProp;
 };
 
 export default function RecetaEdit({ navigation, route }: Props) {
 
-  console.log('RecetaEdit route:', route.params.receta);
-  const recetaParam = route.params.receta;
+  console.log('RecetaEdit route:', route?.params?.receta);
+  const recetaParam = route?.params?.receta as IReceta;
 
   const [ receta, setReceta ] = useState<IReceta>({
     id: recetaParam.id,
@@ -70,8 +70,8 @@ export default function RecetaEdit({ navigation, route }: Props) {
     }
 
     const refreshBack = () => {
-        navigation.goBack();
-        route.params.onRefresh();
+        navigation?.goBack();
+        route?.params?.onRefresh();
     }
 
   const handleChange = (data: InputType) => {
@@ -82,7 +82,7 @@ export default function RecetaEdit({ navigation, route }: Props) {
   return (
     <View style={{ flex: 1, padding: 20 }}>
 
-      <HeaderModule title="Información Receta" iconStart="right" onPressStart={()=>navigation.goBack()} iconEnd="delete" onPressEnd={()=>handleItemRemove()}/>
+      <HeaderModule title="Información Receta" iconStart="right" onPressStart={()=>navigation?.goBack()} iconEnd="delete" onPressEnd={()=>handleItemRemove()}/>
 
         <ScrollView style={{ flex: 1 }} showsVerticalScrollIndicator={false} contentContainerStyle={{ paddingBottom: 20, paddingTop: 10 }}>
 

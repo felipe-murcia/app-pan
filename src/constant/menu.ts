@@ -1,10 +1,10 @@
 export const menuItems = [
-    {
-        id: 1,
-        title: "Ordenes",
-        icon: "ordenes",
-        screen: "OrdenesList",
-    },
+    // {
+    //     id: 1,
+    //     title: "Ordenes",
+    //     icon: "ordenes",
+    //     screen: "OrdenesList",
+    // },
     {
         id: 2,
         title: "Inventario",
@@ -22,5 +22,11 @@ export const menuItems = [
         title: "Movimiento",
         icon: "movimientos",
         screen: "Movimientos",
+    },
+    {
+        id: 5,
+        title: "Ordenes",
+        icon: "ordenes",
+        screen: "OrdenesAdmin",
     },
 ];

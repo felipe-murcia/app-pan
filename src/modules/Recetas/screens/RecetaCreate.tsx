@@ -16,8 +16,8 @@ type MainScreenNavigationProp = StackNavigationProp<RootStackParamList, "RecetaC
 type MainScreenRouteProp = RouteProp<RootStackParamList, "RecetaCreate">;
 
 type Props = {
-  navigation: MainScreenNavigationProp;
-  route: MainScreenRouteProp;
+  navigation?: MainScreenNavigationProp;
+  route?: MainScreenRouteProp;
 };
 
 export default function RecetaCreate({ navigation, route }: Props) {
@@ -40,8 +40,8 @@ export default function RecetaCreate({ navigation, route }: Props) {
     let res:any = await saveReceta(receta) || true;
 
     if (res?.id) {
-        navigation.goBack();
-        route.params.onRefresh();
+        navigation?.goBack();
+        route?.params?.onRefresh();
     }
   }
 
@@ -53,7 +53,7 @@ export default function RecetaCreate({ navigation, route }: Props) {
   return (
     <View style={{ flex: 1, padding: 20 }}>
 
-      <HeaderModule title="Formulario" iconEnd="close" onPressEnd={()=>navigation.goBack()}/>
+      <HeaderModule title="Formulario" iconEnd="close" onPressEnd={()=>navigation?.goBack()}/>
 
         <ScrollView style={{ flex: 1 }} showsVerticalScrollIndicator={false} contentContainerStyle={{ paddingBottom: 20, paddingTop: 10 }}>
 

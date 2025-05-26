@@ -13,6 +13,8 @@ import RecetaEdit from "../modules/Recetas/screens/RecetaEdit";
 import ProductoScreen from "../modules/Productos/screens/ProductoScreen";
 import ProductoCreate from "../modules/Productos/screens/ProductoCreate";
 import ProductoEdit from "../modules/Productos/screens/ProductoEdit";
+import OrdenesAdmin from "../modules/Ordenes/screens/OrdenesAdmint";
+import OrdenCreate from "../modules/Ordenes/screens/OrdenCreate";
 
 const Stack = createStackNavigator();
 
@@ -43,6 +45,8 @@ export default function App() {
         <Stack.Screen name="ProductoScreen" component={ProductoScreen} options={{ headerShown: false }} />
         <Stack.Screen name="ProductoCreate" component={ProductoCreate} options={{ headerShown: false }} />
         <Stack.Screen name="ProductoEdit" component={ProductoEdit} options={{ headerShown: false }} />
+        <Stack.Screen name="OrdenesAdmin" component={OrdenesAdmin} options={{ headerShown: false }} />
+        <Stack.Screen name="OrdenCreate" component={OrdenCreate} options={{ headerShown: false }} />
       </Stack.Navigator>
     </NavigationContainer>
   );

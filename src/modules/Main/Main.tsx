@@ -4,6 +4,7 @@ import { StackNavigationProp } from "@react-navigation/stack";
 import { RootStackParamList } from "../../interfaces/RootStackParamList";
 import { FlatList } from "react-native-gesture-handler";
 import { menuItems } from "../../constant/menu";
+import { colorPrimary } from "../../constant/color";
 
 type MainScreenNavigationProp = StackNavigationProp<RootStackParamList, "Main">;
 //type MainScreenRouteProp = RouteProp<RootStackParamList, "Main">;
@@ -21,6 +22,7 @@ export default function Main({ navigation }: Props) {
       style={{
         flex: 1,
         padding: 20,
+        backgroundColor: colorPrimary,
       }}
     >
 
@@ -31,7 +33,7 @@ export default function Main({ navigation }: Props) {
       
       <FlatList
         data={menuItems}
-        renderItem={({item}) => <ButtonMenu title={item.title} icon={item.icon} onPress={()=>navigation.navigate(item.screen)}/>}
+        renderItem={({item}:any) => <ButtonMenu title={item.title} icon={item.icon} onPress={()=>navigation?.navigate(item.screen)}/>}
         keyExtractor={item => item.id.toString()}
         numColumns={2}
         columnWrapperStyle={{ justifyContent: "space-between" }}

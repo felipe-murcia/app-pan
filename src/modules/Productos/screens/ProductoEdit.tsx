@@ -14,14 +14,14 @@ type MainScreenNavigationProp = StackNavigationProp<RootStackParamList, "Product
 type MainScreenRouteProp = RouteProp<RootStackParamList, "ProductoEdit">;
 
 type Props = {
-  navigation: MainScreenNavigationProp;
-  route: MainScreenRouteProp;
+  navigation?: MainScreenNavigationProp;
+  route?: MainScreenRouteProp;
 };
 
 export default function ProductoEdit({ navigation, route }: Props) {
 
-  console.log('ProductoEdit route:', route.params.producto);
-  const productParam = route.params.producto;
+  console.log('ProductoEdit route:', route?.params?.producto);
+  const productParam = route?.params?.producto as IProducto;
 
   const [ producto, setProducto ] = useState<IProducto>({
     id: productParam.id,
@@ -61,8 +61,8 @@ export default function ProductoEdit({ navigation, route }: Props) {
     }
 
     const refreshBack = () => {
-        navigation.goBack();
-        route.params.onRefresh();
+        navigation?.goBack();
+        route?.params?.onRefresh?.();
     }
 
   const handleChange = (data: InputType) => {
@@ -73,7 +73,7 @@ export default function ProductoEdit({ navigation, route }: Props) {
   return (
     <View style={{ flex: 1, padding: 20 }}>
 
-      <HeaderModule title="Información Prod." iconStart="right" onPressStart={()=>navigation.goBack()} iconEnd="delete" onPressEnd={()=>handleItemRemove()}/>
+      <HeaderModule title="Información Prod." iconStart="right" onPressStart={()=>navigation?.goBack()} iconEnd="delete" onPressEnd={()=>handleItemRemove()}/>
 
         <ScrollView style={{ flex: 1 }} showsVerticalScrollIndicator={false} contentContainerStyle={{ paddingBottom: 20, paddingTop: 10 }}>
 

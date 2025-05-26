@@ -1,3 +1,4 @@
+import { IOrden } from "../modules/Ordenes/models/Orden";
 import { IProducto } from "../modules/Productos/models/Producto";
 import { IReceta } from "../modules/Recetas/models/Receta";
 
@@ -20,6 +21,10 @@ export type RootStackParamList = {
   };
   ProductoEdit: {
     producto: IProducto,
+    onRefresh: () => void;
+  };
+  OrdenesAdmin: undefined;
+  OrdenCreate: {
     onRefresh: () => void;
   };
 };
