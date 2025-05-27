@@ -36,7 +36,8 @@ export default function ItemReceta({ data, onPress }: Props) {
           <View style={{ width: 5 }} />
           <View>
             <Text style={{ fontFamily: 'PoppinsMedium', fontSize: 16}}>{data?.nombre} </Text>
-            <Text style={{ fontFamily: 'PoppinsLight', fontSize: 12}}>Tiempo: {data?.tiempo}m | Temperatura: {data?.temperatura}°</Text>
+            <Text style={{ fontFamily: 'PoppinsLight', fontSize: 12}}> {data?.ingredientes?.length} Ingredientes</Text>
+            <Text style={{ fontFamily: 'PoppinsLight', fontSize: 12}}> Tiempo: {data?.tiempo} min - Temperatura: {data?.temperatura} C°</Text>            
           </View>
         </View>
         <Image

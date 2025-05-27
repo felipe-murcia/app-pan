@@ -9,13 +9,13 @@ export const ESTADOS: Estado[] = [
   {
     id: 1,
     nombre: 'Pendiente',
-    color: '#facc15',     // amarillo
+    color: '#5B9B4D',     // amarillo
     icono: 'clock',
   },
   {
     id: 2,
     nombre: 'En proceso',
-    color: '#3b82f6',     // azul
+    color: '#EBBD41',     // azul
     icono: 'loader',
   },
   {
@@ -27,7 +27,7 @@ export const ESTADOS: Estado[] = [
   {
     id: 4,
     nombre: 'Cancelado',
-    color: '#ef4444',     // rojo
+    color: '#AE2029',     // rojo
     icono: 'x-circle',
   },
 ];

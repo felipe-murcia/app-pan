@@ -1,7 +1,6 @@
 
 
 import { StyleSheet } from "react-native";
-import { flexCenter } from "./flexCenterStyle";
 
 const globalStyles = StyleSheet.create({
   container: {

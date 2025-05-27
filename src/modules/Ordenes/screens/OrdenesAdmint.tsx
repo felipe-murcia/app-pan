@@ -40,7 +40,7 @@ export default function OrdenesAdmin({ navigation }: Props) {
 
           data={ordenes}
           renderItem={({ item }) => (
-            <ItemOrden key={item.id} data={item} onPress={() => navigation.navigate("RecetaEdit", { receta: item as any, onRefresh: refetch })} />
+            <ItemOrden key={item.id} data={item} onPress={() => navigation.navigate("OrdenDetailsAdmin", { orden: item as any, onRefresh: refetch })} />
           )}
           keyExtractor={item => item.id?.toString() || "0"}
           ListEmptyComponent={ !loading ? <Text>No hay orden disponible.</Text>: null}

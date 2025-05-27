@@ -35,25 +35,30 @@ export default function ItemOrden({ data, onPress }: Props) {
  
 
 
-        <View style={[globalStyles.flexCenter]} >     
-          <Text style={globalStyles.labelCard}> {formatFecha(data?.createdAt)} </Text>
+        <View style={[globalStyles.flexCenter]} >
+          <Text style={{ fontFamily: 'PoppinsMedium', fontSize: 22, paddingLeft: 5 }}>
+            #{data?.id}
+          </Text>
           <EstadoBadge estadoId={data?.estado} />
         </View>   
-
-
-      
+ 
         <View style={globalStyles.borderBottom}/>
         
-        <Text style={{ fontFamily: 'PoppinsMedium', fontSize: 18, paddingLeft: 5 }}>
-          {data?.producto?.nombre}
-        </Text>
-        <View style={{flexDirection: 'row', alignItems: 'center' }}>
-          <Image
-            source={require("../../../../assets/images/icon/pan.png")}
-            style={{ width: 18, height: 18, tintColor:'' }} />
-          <Text style={[globalStyles.labelCard, { paddingLeft: 3 }]}> {data?.cantidadInicial} Cantidades</Text>
+        <View style={{ alignItems:'center'}}>
+
+          <Text style={{ fontFamily: 'PoppinsMedium', fontSize: 22, paddingLeft: 5 }}>
+            {data?.producto?.nombre}
+          </Text>
+          <View style={{flexDirection: 'row', alignItems: 'center' }}>
+            <Image
+              source={require("../../../../assets/images/icon/pan.png")}
+              style={{ width: 18, height: 18, tintColor:'' }} />
+            <Text style={[globalStyles.labelCard, { paddingLeft: 3, fontSize:18 }]}> {data?.cantidadInicial} Cantidades</Text>
+          </View>
+          <View style={{height: 8}}/>
+          <Text style={globalStyles.labelCard}> {formatFecha(data?.createdAt)} </Text>
         </View>
-        <View style={{height: 8}}/>
+        
     
       </View>
     </TouchableOpacity>

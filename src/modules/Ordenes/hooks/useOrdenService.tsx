@@ -37,7 +37,7 @@ export default function useOrdenService( load: boolean = false) {
       console.log(response)
       return response;
     } catch (err: any) {
-      setError("Error al guardar la receta: " + (err?.message || "Unknown error"));
+      setError("Error al crear uan orden: " + (err?.message || "Unknown error"));
     } finally {
       setLoading(false)
     }

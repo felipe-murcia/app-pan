@@ -27,4 +27,8 @@ export type RootStackParamList = {
   OrdenCreate: {
     onRefresh: () => void;
   };
+  OrdenDetailsAdmin: {
+    orden: IOrden;
+    onRefresh: () => void;
+  };
 };
