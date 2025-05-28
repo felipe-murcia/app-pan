@@ -23,11 +23,11 @@ export default function InputText({
 }: InputTextProps) {
   return (
     <View style={styles.container}>
-      {label && <Text style={styles.label}>{label} </Text>}
+      {label && <Text style={styles.label}>{label}</Text>}
       <TextInput
         style={[styles.input, error.length > 0 && { borderColor: "red" }]}
         placeholder={placeholder}
-        value={keyboardType=="numeric"?parseInt(value)+"":value}
+        value={keyboardType=="numeric"?parseInt(value || 0)+"":value}
         onChangeText={onChangeText}
         secureTextEntry={secureTextEntry}
         keyboardType={keyboardType}

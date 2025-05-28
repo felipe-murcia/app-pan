@@ -31,4 +31,8 @@ export type RootStackParamList = {
     orden: IOrden;
     onRefresh: () => void;
   };
+  OrdenDetailsUser: {
+    orden: IOrden;
+    onRefresh: () => void;
+  };
 };

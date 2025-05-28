@@ -1,6 +1,6 @@
 
 import React, { useState } from "react";
-import { Text, View, ScrollView, StyleSheet } from "react-native";
+import { Text, View, ScrollView, StyleSheet, Alert } from "react-native";
 // import { IReceta } from "../models/Receta";
 import { RecetaService } from "../../../services/recetaServices";
 import HeaderModule from "../../../components/HeaderModule/HeaderModule";
@@ -18,6 +18,8 @@ import FormOrden from "../components/FormOrden/FormOrden";
 import { EstadoBadge } from "../components/EstadoBadge/EstadoBadge";
 import globalStyles from "../../../styles/globalStyles";
 import { IIngrediente } from "../../Recetas/models/Receta";
+import Button from "../../../components/Button/Button";
+import useOrdenService from "../hooks/useOrdenService";
 
 type MainScreenNavigationProp = StackNavigationProp<RootStackParamList, "OrdenDetailsAdmin">;
 type MainScreenRouteProp = RouteProp<RootStackParamList, "OrdenDetailsAdmin">;
@@ -32,9 +34,33 @@ export default function OrdenDetailsAdmin({ navigation, route }: Props) {
   console.log('RecetaEdit route:', route?.params?.orden);
   const ordenParam = route?.params?.orden as IOrden;
 
-  const handleSave = async () => {
-    navigation?.goBack();
-    route?.params?.onRefresh();
+  const { updateOrden, loading } = useOrdenService();
+
+  const handleCancel = async () => {
+    const data: IOrden = {
+      ...ordenParam,
+      estado: 4, // Estado 4 es "Cancelada"
+    };
+    let res = await updateOrden(data);
+    if (res) {
+      navigation?.goBack();
+      route?.params?.onRefresh();
+    }
+  }
+
+  const confirmCancel = () => {
+    Alert.alert(
+      "Confirmar Cancelación",
+      "¿Estás seguro de que deseas cancelar esta orden?",
+      [
+        {
+          text: "Cancelar",
+          style: "cancel",
+        },
+        { text: "Aceptar", onPress: handleCancel },
+      ],
+      { cancelable: false }
+    );
   }
 
   let { producto, receta, cantidadInicial, cantidadFinal, estado } = ordenParam || {};
@@ -48,16 +74,21 @@ export default function OrdenDetailsAdmin({ navigation, route }: Props) {
       <HeaderModule title="Detalles" iconEnd="close" onPressEnd={()=>navigation?.goBack()}/>
         <ScrollView style={{ flex: 1 }} showsVerticalScrollIndicator={false} contentContainerStyle={{ paddingBottom: 20, paddingTop: 10 }}>        
           <View style={{alignItems:'flex-start',paddingTop:10, backgroundColor:'#fff', borderRadius:10, padding:10}}>
-           <EstadoBadge estadoId={estado} fontSize={14} />
+            
+          <View style={[globalStyles.flexCenter,{ justifyContent:'space-between', width:'100%' }]}>
+            <Text style={styles.title}>Orden #{ordenParam?.id}</Text>
+            <EstadoBadge estadoId={estado} fontSize={14} />
+          </View>
 
             <View style={{ width:'100%'}}>
               <View style={globalStyles.borderBottom}/>
             </View>
 
+
            <Text style={styles.title}>Producto:</Text>
            <Text style={styles.textValue}>{producto?.nombre}</Text>
            <Text style={styles.title}>Cantidad:</Text>
-           <Text style={styles.textValue}>{cantidadFinal}</Text>
+           <Text style={styles.textValue}>{cantidadInicial}</Text>
 
           <Text style={styles.title}>Observación:</Text>
           <Text style={styles.textValue}>{ordenParam?.observacion || "Sin observación"}</Text>
@@ -81,11 +112,19 @@ export default function OrdenDetailsAdmin({ navigation, route }: Props) {
           <Text style={[styles.textValue, { fontFamily:'PoppinsMedium' }]}>Observación:</Text>
           <Text style={styles.textValue}>{ordenParam?.observacion || "Sin observación"}</Text>
 
-          
+      <View style={{height: 20, width:'100%'}} />
+          </View>
 
           <View style={{height: 20, width:'100%'}} />
 
-          </View>
+        {
+          ordenParam?.estado !== 4 && // Si no está cancelada
+                  <Button
+                    title="Cancelar orden"
+                    onPress={confirmCancel}
+                    style={{ width: '100%' }}
+                  />
+        }
         </ScrollView>
         <View style={{ marginVertical: 10 }} />
     </View>

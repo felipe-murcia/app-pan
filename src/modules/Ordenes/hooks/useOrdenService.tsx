@@ -43,18 +43,18 @@ export default function useOrdenService( load: boolean = false) {
     }
   }
 
-    const updateOrden = async (data:IOrden) => {
-    try {
-      setLoading(true);
-      setError(null);
-      const response = await ordenesService.update(data)
-      console.log(response)
-      return response;
-    } catch (err: any) {
-      setError("Error al actualizar la receta: " + (err?.message || "Unknown error"));
-    } finally {
-      setLoading(false)
-    }
+  const updateOrden = async (data:IOrden) => {
+      try {
+        setLoading(true);
+        setError(null);
+        const response = await ordenesService.update(data)
+        console.log(response)
+        return response;
+      } catch (err: any) {
+        setError("Error al actualizar la orden: " + (err?.message || "Unknown error"));
+      } finally {
+        setLoading(false)
+      }
   }
 
   const deleteOrden = async (data:IOrden) => {

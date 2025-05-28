@@ -35,7 +35,7 @@ export default function ButtonMenu({ title, icon, onPress }: Props) {
           <Image source={iconSource} style={{ width: 48, height: 48, tintColor:'' }} />
         </View>
         <View style={{ height: 10 }} />
-        <Text style={{ fontFamily: 'PoppinsMedium', fontSize: 18}}>{title}</Text>
+        <Text style={{ fontFamily: 'PoppinsMedium', fontSize: 18, textAlign:'center'}}>{title}</Text>
       </View>
     </TouchableOpacity>
   );

@@ -16,6 +16,7 @@ import ProductoEdit from "../modules/Productos/screens/ProductoEdit";
 import OrdenesAdmin from "../modules/Ordenes/screens/OrdenesAdmint";
 import OrdenCreate from "../modules/Ordenes/screens/OrdenCreate";
 import OrdenDetailsAdmin from "../modules/Ordenes/screens/OrdenDetailsAdmin";
+import OrdenDetailsUser from "../modules/Ordenes/screens/OrdenDetailsUser";
 
 const Stack = createStackNavigator();
 
@@ -49,6 +50,7 @@ export default function App() {
         <Stack.Screen name="OrdenesAdmin" component={OrdenesAdmin} options={{ headerShown: false }} />
         <Stack.Screen name="OrdenCreate" component={OrdenCreate} options={{ headerShown: false }} />
         <Stack.Screen name="OrdenDetailsAdmin" component={OrdenDetailsAdmin} options={{ headerShown: false }} />
+        <Stack.Screen name="OrdenDetailsUser" component={OrdenDetailsUser} options={{ headerShown: false }} />
       </Stack.Navigator>
     </NavigationContainer>
   );

@@ -9,21 +9,27 @@ import { RootStackParamList } from "../../../interfaces/RootStackParamList";
 import { StackNavigationProp } from "@react-navigation/stack";
 import ItemOrden from "../components/ItemOrden/ItemOrden";
 import useOrdenService from "../hooks/useOrdenService";
+import useUserStore from "../../../stores/useUserStore";
 //import ItemReceta from "../../../components/ItemProducto/ItemProducto";
 //import ItemReceta from './components/ItemReceta/ItemReceta';
 //import useRecetasService from "./hooks/useRecetasService";
+import { RouteProp } from "@react-navigation/native";
 
 type MainScreenNavigationProp = StackNavigationProp<RootStackParamList, "OrdenesAdmin">;
-//type MainScreenRouteProp = RouteProp<RootStackParamList, "Main">;
+type MainScreenRouteProp = RouteProp<RootStackParamList, "OrdenesAdmin">;
 
 type Props = {
   navigation: MainScreenNavigationProp;
-  //route: MainScreenRouteProp;
+  route: MainScreenRouteProp;
 };
 
-export default function OrdenesAdmin({ navigation }: Props) {
+export default function OrdenesAdmin({ navigation, route }: Props) {
 
   const { ordenes, loading, error, refetch } = useOrdenService(true);
+
+  const { user  } = useUserStore();
+
+  let isAdmin = user.role === "admin";
 
   return (
     <View
@@ -33,14 +39,17 @@ export default function OrdenesAdmin({ navigation }: Props) {
       }}
     >
 
-      <HeaderModule title="Ordenes" iconEnd="plus" onPressEnd={()=>navigation.navigate("OrdenCreate", { onRefresh: refetch })}/>
+      <HeaderModule title={isAdmin ? "Ordenes" : "Mis Ordenes"} iconEnd={isAdmin ? "plus" : "close"} onPressEnd={()=> isAdmin ? navigation.navigate("OrdenCreate", { onRefresh: refetch }): navigation.goBack()}/>
       <View>
 
         <FlatList
 
           data={ordenes}
           renderItem={({ item }) => (
-            <ItemOrden key={item.id} data={item} onPress={() => navigation.navigate("OrdenDetailsAdmin", { orden: item as any, onRefresh: refetch })} />
+            <ItemOrden key={item.id} data={item} onPress={() => 
+              isAdmin ? navigation.navigate("OrdenDetailsAdmin", { orden: item as any, onRefresh: refetch })
+              : navigation.navigate("OrdenDetailsUser", { orden: item as any, onRefresh: refetch })
+            } />
           )}
           keyExtractor={item => item.id?.toString() || "0"}
           ListEmptyComponent={ !loading ? <Text>No hay orden disponible.</Text>: null}
