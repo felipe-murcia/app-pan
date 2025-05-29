@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Text, View, ScrollView, StyleSheet, Alert } from "react-native";
+import { Text, View, ScrollView, StyleSheet, Alert, ActivityIndicator } from "react-native";
 // import { IReceta } from "../models/Receta";
 import { RecetaService } from "../../../services/recetaServices";
 import HeaderModule from "../../../components/HeaderModule/HeaderModule";
@@ -18,6 +18,10 @@ import { IIngrediente } from "../../Recetas/models/Receta";
 import Button from "../../../components/Button/Button";
 import useOrdenService from "../hooks/useOrdenService";
 import { borderColorTable } from "../../../constant/color";
+import StatusOrder from "../components/StatusOrder/StatusOrder";
+import ItemOrden from "../components/ItemOrden/ItemOrden";
+import ItemTable from "../components/Itemtable/ItemTable";
+import ModalCantidadFinal from "../components/ModalCantidadFinal/ModalCantidadFinal";
 
 type MainScreenNavigationProp = StackNavigationProp<
   RootStackParamList,
@@ -31,22 +35,25 @@ type Props = {
 };
 
 export default function OrdenDetailsUser({ navigation, route }: Props) {
-  console.log("RecetaEdit route:", route?.params?.orden);
-  let ordenParam = route?.params?.orden as IOrden;
-  
 
+  let data = route?.params?.orden as IOrden;
+  const [ ordenParam, setOrdenParam ] = useState<IOrden>(data || {});
   const { updateOrden, loading } = useOrdenService();
 
-  const handleConfirmTakeOrder = async () => {
+  const [ modalCantidad, setModalCantidad ] = useState<boolean>(false);
+
+  const handleConfirmOrder = async (estado: number, cantidad: number) => {
     const data: IOrden = {
       ...ordenParam,
-      estado: 2, // Estado 4 es "Cancelada"
+      estado: estado,
+      cantidadFinal: cantidad,
     };
     console.log("tomando orden:", data);
     let res = await updateOrden(data);
     console.log("Resultado de tomar orden:", res);
     if (res) {
-      ordenParam = { ...ordenParam, estado: 2 }; // Actualizar el estado localmente
+      setOrdenParam({ ...ordenParam, estado: estado, cantidadFinal: cantidad });
+      route?.params?.onRefresh?.(); 
     }
   };
 
@@ -59,20 +66,33 @@ export default function OrdenDetailsUser({ navigation, route }: Props) {
           text: "Cancelar",
           style: "cancel",
         },
-        { text: "Aceptar", onPress: handleConfirmTakeOrder },
+        { text: "Aceptar", onPress: () => handleConfirmOrder(2, ordenParam?.cantidadInicial ) },
       ],
       { cancelable: false }
     );
   };
 
-  let { producto, receta, cantidadInicial, cantidadFinal, estado } =
+    const confirmCompleted = () => {
+    Alert.alert(
+      "Finalizar orden",
+      "¿Marcar orden como terminada?",
+      [
+        {
+          text: "Cancelar",
+          style: "cancel",
+        },
+        { text: "Aceptar", onPress: () => setModalCantidad(true) },
+      ],
+      { cancelable: false }
+    );
+  };
+
+  let { producto, receta, cantidadInicial, estado } =
     ordenParam || {};
 
   const ingredientes = receta?.ingredientes
     ? JSON.parse(receta.ingredientes.toString())
     : [];
-
-  console.log("OrdenDetailsAdmin ingredientes:", ingredientes);
 
   return (
     <View style={{ flex: 1, padding: 20 }}>
@@ -86,6 +106,17 @@ export default function OrdenDetailsUser({ navigation, route }: Props) {
         showsVerticalScrollIndicator={false}
         contentContainerStyle={{ paddingBottom: 20, paddingTop: 10 }}
       >
+
+        <ModalCantidadFinal
+          visible={modalCantidad}
+          onClose={() => setModalCantidad(false)}
+          onSave={(cantidad: number) => {
+            setModalCantidad(false);
+            handleConfirmOrder(3, cantidad);
+          }}
+        />
+
+        <StatusOrder status={estado} />
         <View
           style={{
             alignItems: "flex-start",
@@ -109,64 +140,10 @@ export default function OrdenDetailsUser({ navigation, route }: Props) {
             <View style={globalStyles.borderBottom} />
           </View>
 
-    
 
-          <View style={{ width: "100%", flexDirection: "row" }}>
-              <View style={globalStyles.cell}>
-                <Text
-                  style={[styles.textValue, { fontFamily: "PoppinsMedium" }]}
-                >
-                  Producto
-                </Text>
-              </View>
-              <View style={globalStyles.cell}>
-                <Text
-                  style={[styles.textValue ]}
-                >
-                  {producto?.nombre || "Sin producto"}
-                </Text>
-              </View>
-
-        </View>
-
-
-        <View style={{ width: "100%", flexDirection: "row" }}>
-              <View style={globalStyles.cell}>
-                <Text
-                  style={[styles.textValue, { fontFamily: "PoppinsMedium" }]}
-                >
-                  Cantidad
-                </Text>
-              </View>
-              <View style={globalStyles.cell}>
-                <Text
-                  style={[styles.textValue ]}
-                >
-                  { cantidadInicial }
-                </Text>
-              </View>
-
-        </View>
-
-
-        <View style={{ width: "100%", flexDirection: "row" }}>
-              <View style={globalStyles.cell}>
-                <Text
-                  style={[styles.textValue, { fontFamily: "PoppinsMedium" }]}
-                >
-                  Observación
-                </Text>
-              </View>
-              <View style={globalStyles.cell}>
-                <Text
-                  style={[styles.textValue ]}
-                >
-                  {ordenParam?.observacion || "Sin observación"}
-                </Text>
-              </View>
-
-        </View>
-
+          <ItemTable label="Producto" labelBold={true}  value={producto?.nombre || "Sin producto"} /> 
+          <ItemTable label="Cantidad" labelBold={true} value={cantidadInicial+""} />
+          <ItemTable label="Observación" labelBold={true} value={ordenParam?.observacion || "Sin observación"} />    
 
           <View style={{ width: "100%" }}>
             <View style={globalStyles.borderBottom} />
@@ -183,107 +160,58 @@ export default function OrdenDetailsUser({ navigation, route }: Props) {
                 </Text>
               </View> 
             </View>
-            <View style={{ width: "100%", flexDirection: "row" }}>
-              <View style={globalStyles.cell}>
-                <Text
-                  style={[styles.textValue, { fontFamily: "PoppinsMedium" }]}
-                >
-                  Temperatura
-                </Text>
-              </View>
-              <View style={globalStyles.cell}>
-                <Text
-                  style={[styles.textValue ]}
-                >
-                  {receta?.temperatura} °C
-                </Text>
-              </View>
-            </View>
 
-            <View style={{ width: "100%", flexDirection: "row" }}>
-              <View style={globalStyles.cell}>
-                <Text
-                  style={[styles.textValue, { fontFamily: "PoppinsMedium" }]}
-                >
-                  Tiempo
-                </Text>
-              </View>
-              <View style={globalStyles.cell}>
-                <Text
-                  style={[styles.textValue ]}
-                >
-                  {receta?.tiempo} min
-                </Text>
-              </View>
+            <ItemTable label="Temperatura" labelBold={true}  value={`${receta?.temperatura} °C`} />
+            <ItemTable label="Tiempo" labelBold={true}  value={`${receta?.tiempo} min`} />
 
-        </View>
 
         <View style={globalStyles.borderBottom} />
 
+        {
+          receta?.conPicada &&(
+            <>
+            <ItemTable label="Picada" value={`${receta?.picada} gr` || "Sin picada"}  labelBold={true} />
+            </>
+          )
+        }
 
-        <View style={{ width: "100%", flexDirection: "row" }}>
-              <View style={globalStyles.cell}>
-                <Text
-                  style={[styles.textValue, { fontFamily: "PoppinsMedium" }]}
-                >
-                  Ingrediente
-                </Text>
-              </View>
-              <View style={globalStyles.cell}>
-                <Text
-                  style={[styles.textValue, { fontFamily: "PoppinsMedium" }]}
-                >
-                  Cantidad
-                </Text>
-              </View>
-
-        </View>
-
+        
+        <ItemTable label="Ingrediente" value={`Cantidad`} valueBold={true} labelBold={true} />
    
           
             {ingredientes?.map((ingrediente: IIngrediente, index: number) => (
-              <View key={index} style={{ width: "100%", flexDirection: "row" }}>
-                <View style={globalStyles.cell}>
-                  <Text style={styles.textValue}>{ingrediente.nombre}</Text>
-                </View>
-                <View style={globalStyles.cell}>
-                  <Text style={styles.textValue}>
-                    {ingrediente.cantidad} {ingrediente.tipoDeUnidad}
-                  </Text>
-                </View>
-              </View>
+              <ItemTable key={index} label={ingrediente.nombre} value={`${ingrediente.cantidad} ${ingrediente.tipoDeUnidad}`} />
             ))}
           </View>
 
-          <View style={{ width: "100%", flexDirection: "row" }}>
-              <View style={globalStyles.cell}>
-                <Text
-                  style={[styles.textValue, { fontFamily: "PoppinsMedium" }]}
-                >
-                  Nota
-                </Text>
-              </View>
-              <View style={globalStyles.cell}>
-                <Text
-                  style={[styles.textValue]}
-                >
-                  {receta?.observacion }
-                </Text>
-              </View>
+          <ItemTable label="Nota" value={receta?.observacion || " "} labelBold={true} />
 
-        </View>
-
-         
+          {
+            estado == 3 &&
+            <ItemTable label="Cantidad producida" value={ordenParam?.cantidadFinal+" "} labelBold={true} />
+          }
 
           <View style={{ height: 20, width: "100%" }} />
         </View>
 
         <View style={{ height: 20, width: "100%" }} />
 
-        {ordenParam?.estado !== 4 && ( // Si no está cancelada
+
+        { loading && <ActivityIndicator size="large" /> }
+
+
+        {ordenParam?.estado == 1 && !loading && ( 
           <Button
             title="Tomar orden"
             onPress={confirmCancel}
+            style={{ width: "100%" }}
+          />
+        )}
+
+        {ordenParam?.estado == 2 && !loading &&(  
+          <Button
+            title="Completar orden"
+            onPress={confirmCompleted}
             style={{ width: "100%" }}
           />
         )}

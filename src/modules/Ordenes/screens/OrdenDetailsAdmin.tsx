@@ -20,6 +20,7 @@ import globalStyles from "../../../styles/globalStyles";
 import { IIngrediente } from "../../Recetas/models/Receta";
 import Button from "../../../components/Button/Button";
 import useOrdenService from "../hooks/useOrdenService";
+import ItemTable from "../components/Itemtable/ItemTable";
 
 type MainScreenNavigationProp = StackNavigationProp<RootStackParamList, "OrdenDetailsAdmin">;
 type MainScreenRouteProp = RouteProp<RootStackParamList, "OrdenDetailsAdmin">;
@@ -84,33 +85,28 @@ export default function OrdenDetailsAdmin({ navigation, route }: Props) {
               <View style={globalStyles.borderBottom}/>
             </View>
 
-
-           <Text style={styles.title}>Producto:</Text>
-           <Text style={styles.textValue}>{producto?.nombre}</Text>
-           <Text style={styles.title}>Cantidad:</Text>
-           <Text style={styles.textValue}>{cantidadInicial}</Text>
-
-          <Text style={styles.title}>Observación:</Text>
-          <Text style={styles.textValue}>{ordenParam?.observacion || "Sin observación"}</Text>
+           <ItemTable label="Producto" value={ordenParam?.producto?.nombre || "Sin producto"} labelBold={true} />
+           <ItemTable label="Cantidad ordenada" value={cantidadInicial+""} labelBold={true} />
+           <ItemTable label="Cantidad producida" value={cantidadFinal+""} labelBold={true} />
+           <ItemTable label="Observación" value={ordenParam?.observacion+""} labelBold={true} />
 
           <View style={{ width:'100%'}}>
             <View style={globalStyles.borderBottom}/>
           </View>
 
-          <Text style={styles.title}>Receta {receta?.nombre} </Text>
-          <Text style={styles.textValue}>Temperatura: {receta?.temperatura} °C</Text>
-          <Text style={styles.textValue}>Tiempo {receta?.tiempo} min</Text>
+          <ItemTable label="Receta" value={receta?.nombre+""} labelBold={true} />
+          <ItemTable label="Temperatura" value={`${receta?.temperatura} °C`} labelBold={true} />
+          <ItemTable label="Tiempo" value={`${receta?.tiempo} min`} labelBold={true} />
 
-          <Text style={[styles.textValue, { fontFamily:'PoppinsMedium' }]}>Ingredientes:</Text>
-
-          {ingredientes?.map((ingrediente : IIngrediente, index: number) => (
-            <Text key={index} style={styles.textValue}>
-              {ingrediente?.cantidad}{ingrediente?.tipoDeUnidad}. de {ingrediente?.nombre}
-            </Text>
+          <ItemTable label="Ingrediente" value={`Cantidad`} valueBold={true} labelBold={true} />
+    
+          {ingredientes?.map((ingrediente: IIngrediente, index: number) => (
+            <ItemTable key={index} label={ingrediente.nombre} value={`${ingrediente.cantidad} ${ingrediente.tipoDeUnidad}`} />
           ))}
 
-          <Text style={[styles.textValue, { fontFamily:'PoppinsMedium' }]}>Observación:</Text>
-          <Text style={styles.textValue}>{ordenParam?.observacion || "Sin observación"}</Text>
+         <ItemTable label="Nota" value={receta?.observacion || " "} labelBold={true} />
+       
+
 
       <View style={{height: 20, width:'100%'}} />
           </View>
@@ -118,7 +114,7 @@ export default function OrdenDetailsAdmin({ navigation, route }: Props) {
           <View style={{height: 20, width:'100%'}} />
 
         {
-          ordenParam?.estado !== 4 && // Si no está cancelada
+          ordenParam?.estado !== 4 && ordenParam?.estado !== 3 &&// Si no está cancelada
                   <Button
                     title="Cancelar orden"
                     onPress={confirmCancel}
