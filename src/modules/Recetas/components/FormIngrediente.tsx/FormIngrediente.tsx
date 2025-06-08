@@ -57,10 +57,10 @@ export default function FormIngrediente({
         <RadioButton
           name="Tipo de unidad"
           options={[
-            { value: "gr", label: "Gramos" },
-            { value: "cda", label: "Cucharadas" },
-            { value: "ml", label: "Mililitros" },
-            { value: "und", label: "Unidad" },
+            { value: "gr", label: "Gramos (gr.)" },
+            { value: "cda", label: "Cucharadas (cda.)" },
+            { value: "ml", label: "Mililitros (ml.)" },
+            { value: "und", label: "Unidad (und.)" },
           ]}
           selectedKey={ingrediente.tipoDeUnidad || "gr"}
           onChange={(key) => setIngrediente({ ...ingrediente, tipoDeUnidad: key })}

@@ -22,7 +22,7 @@ const RadioButton: React.FC<RadioButtonProps> = ({
   onChange,
 }) => (
   <View>
-    <Label label="Tipo de unidad" />
+    <Label label={ name || "-"} />
     {options.map((option) => (
       <TouchableOpacity
         key={option.value}
@@ -53,7 +53,7 @@ const RadioButton: React.FC<RadioButtonProps> = ({
           )}
         </View>
         <Text style={styles.label}>
-          {option.label} ({option.value}.)
+          {option.label}
         </Text>
       </TouchableOpacity>
     ))}

@@ -19,8 +19,8 @@ type MainScreenNavigationProp = StackNavigationProp<RootStackParamList, "Ordenes
 type MainScreenRouteProp = RouteProp<RootStackParamList, "OrdenesAdmin">;
 
 type Props = {
-  navigation: MainScreenNavigationProp;
-  route: MainScreenRouteProp;
+  navigation?: MainScreenNavigationProp;
+  route?: MainScreenRouteProp;
 };
 
 export default function OrdenesAdmin({ navigation, route }: Props) {
@@ -39,7 +39,7 @@ export default function OrdenesAdmin({ navigation, route }: Props) {
       }}
     >
 
-      <HeaderModule title={isAdmin ? "Ordenes" : "Mis Ordenes"} iconEnd={isAdmin ? "plus" : "close"} onPressEnd={()=> isAdmin ? navigation.navigate("OrdenCreate", { onRefresh: refetch }): navigation.goBack()}/>
+      <HeaderModule title={isAdmin ? "Ordenes" : "Mis Ordenes"} iconEnd={isAdmin ? "plus" : "close"} onPressEnd={()=> isAdmin ? navigation?.navigate("OrdenCreate", { onRefresh: refetch }): navigation && navigation?.goBack()}/>
       <View>
 
         <FlatList
@@ -47,8 +47,8 @@ export default function OrdenesAdmin({ navigation, route }: Props) {
           data={ordenes}
           renderItem={({ item }) => (
             <ItemOrden key={item.id} data={item} onPress={() => 
-              isAdmin ? navigation.navigate("OrdenDetailsAdmin", { orden: item as any, onRefresh: refetch })
-              : navigation.navigate("OrdenDetailsUser", { orden: item as any, onRefresh: refetch })
+              isAdmin ? navigation?.navigate("OrdenDetailsAdmin", { orden: item as any, onRefresh: refetch })
+              : navigation?.navigate("OrdenDetailsUser", { orden: item as any, onRefresh: refetch })
             } />
           )}
           keyExtractor={item => item.id?.toString() || "0"}

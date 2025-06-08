@@ -14,6 +14,7 @@ export default function ButtonIcon({ icon = '', onPress }: Props) {
   icon === "plus" ? require("../../assets/images/icon/plus.png"):
   icon === "close" ? require("../../assets/images/icon/close.png"):
   icon === "delete" ? require("../../assets/images/icon/delete.png"):
+  icon === "config" ? require("../../assets/images/icon/procesando.png"):
   require("../../assets/images/menu/movimiento.png");
 
   return (

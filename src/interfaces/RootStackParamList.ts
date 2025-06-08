@@ -24,6 +24,7 @@ export type RootStackParamList = {
     onRefresh: () => void;
   };
   OrdenesAdmin: undefined;
+  MovimientoScreen: undefined;
   OrdenCreate: {
     onRefresh: () => void;
   };
@@ -33,6 +34,9 @@ export type RootStackParamList = {
   };
   OrdenDetailsUser: {
     orden: IOrden;
+    onRefresh: () => void;
+  };
+  MovimientoCreate: {
     onRefresh: () => void;
   };
 };

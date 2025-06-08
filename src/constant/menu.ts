@@ -17,7 +17,7 @@ export const menuItems = [
         id: 4,
         title: "Movimiento",
         icon: "movimientos",
-        screen: "Movimientos",
+        screen: "MovimientoScreen",
         role: "admin", 
     },
     {
